@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta content="viewport">
+    <link rel="stylesheet" href="bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <title>Play now!</title>
+</head>
+
+<body>
+    <section>
+        
+        <div id="container" class="container-fluid mx-0 my-0 px-0 py-0" style="height: 100vh; width: 100vw; padding: 0%;">
+            <!-- -->
+            <h1 id="description"> Play the piano by pressing the keys or clicking on the buttons! </h1>
+            <div id="imageText" class="row justify-content-center mx-0 px-0 my-0 py-0">
+                <div class="col mx-0 px-0">
+                </div>
+                <div id="key" data-key="65" class="col mx-2 px-2" style="text-align: center;">
+                    <div class="text">
+                        <div id="letter">
+                            <kbd>A</kbd>
+                        </div>
+                        <div>
+                            <span class="sound">A3</span>
+
+                        </div>
+                    </div>
+
+                </div>
+                <div id="key" data-key="83" class="col mx-2 px-2" style="text-align: center;">
+                    <div class="text">
+                        <div id="letter">
+                            <kbd>S</kbd>
+                        </div>
+                        <div>
+                            <span class="sound">A4</span>
+
+                        </div>
+                    </div>
+
+                </div>
+                <div id="key" data-key="68" class="col mx-2 px-2" style="text-align: center;">
+                    <div class="text">
+                        <div id="letter">
+                            <kbd>D</kbd>
+                        </div>
+                        <div>
+                            <span class="sound">B4</span>
+
+                        </div>
+                    </div>
+
+                </div>
+                <div id="key" data-key="70" class="col mx-2 px-2" style="text-align: center;">
+                    <div class="text">
+                        <div id="letter">
+                            <kbd>F</kbd>
+                        </div>
+                        <div>
+                            <span class="sound">C4</span>
+
+                        </div>
+                    </div>
+
+                </div>
+                <div id="key" data-key="71" class="col mx-2 px-2" style="text-align: center;">
+                    <div class="text">
+                        <div id="letter">
+                            <kbd>G</kbd>
+                        </div>
+                        <div>
+                            <span class="sound">C6</span>
+
+                        </div>
+                    </div>
+
+                </div>
+                <div id="key" data-key="72" class="col mx-2 px-2" style="text-align: center;">
+                    <div class="text">
+                        <div id="letter">
+                            <kbd>H</kbd>
+                        </div>
+                        <div>
+                            <span class="sound">D5</span>
+
+                        </div>
+                    </div>
+
+                </div>
+                <div id="key" data-key="74" class="col mx-2 px-2" style="text-align: center;">
+                    <div class="text">
+                        <div id="letter">
+                            <kbd>J</kbd>
+                        </div>
+                        <div>
+                            <span class="sound">E5</span>
+
+                        </div>
+                    </div>
+
+                </div>
+
+                <div id="key" data-key="75" class="col mx-2 px-2" style="text-align: center;">
+                    <div class="text">
+                        <div id="letter">
+                            <kbd>K</kbd>
+                        </div>
+                        <div>
+                            <span class="sound">F3</span>
+
+                        </div>
+                    </div>
+
+                </div>
+                <div id="key" data-key="76" class="col mx-2 px-2" style="text-align: center;">
+                    <div class="text">
+                        <div id="letter">
+                            <kbd>L</kbd>
+                        </div>
+                        <div>
+                            <span class="sound">G3</span>
+
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col mx-0 px-0"></div>
+
+            </div>
+            
+
+        </div>
+        <audio data-key="65" src="sounds/a3.mp3"></audio>
+        <audio data-key="83" src="sounds/a4.mp3"></audio>
+        <audio data-key="68" src="sounds/b4.mp3"></audio>
+        <audio data-key="70" src="sounds/c4.mp3"></audio>
+        <audio data-key="71" src="sounds/c6.mp3"></audio>
+        <audio data-key="72" src="sounds/d5.mp3"></audio>
+        <audio data-key="74" src="sounds/e5.mp3"></audio>
+        <audio data-key="75" src="sounds/f3.mp3"></audio>
+        <audio data-key="76" src="sounds/g3.mp3"></audio>
+
+    </section>
+    <script>
+
+        function removeTransition(e){
+            if(e.propertyName !== 'transform') return;
+            this.classList.remove("playing");
+        }
+
+        window.addEventListener('keydown', function (e) {
+            const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
+            const key = document.querySelector(`#key[data-key="${e.keyCode}"]`);
+            if (!audio) return;
+            audio.currentTime = 0;
+            audio.play();
+            const classText = key.firstElementChild;
+            classText.classList.add("playing");
+
+
+
+        });
+
+        window.addEventListener('click', function (e) {
+
+            var element = e.target;
+
+            if (e.target.parentElement.getAttribute('class') == "text") {
+                element = element.parentElement;
+
+            }
+            if (e.target.parentElement.parentElement.getAttribute('class') == "text") {
+                element = element.parentElement.parentElement;
+            }
+            
+            const clickedElement = element.parentElement;
+            const value = clickedElement.getAttribute('data-key');
+
+            const audio = document.querySelector(`audio[data-key="${value}"`);
+ 
+            if (!audio) return;
+            audio.currentTime = 0;
+            audio.play();
+            const classText = clickedElement.firstElementChild;
+            classText.classList.add("playing");
+            // setTimeout(function(){            
+            //     classText.classList.remove("playing");
+            // }, 0.07)
+
+
+        });
+        const keys = document.querySelectorAll(".text");
+        keys.forEach(key => key.addEventListener('transitionend', removeTransition));
+    </script>
+</body>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="bootstrap/dist/js/bootstrap.min.js"></script>
+
+
+</html>
